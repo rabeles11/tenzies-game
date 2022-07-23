@@ -5,9 +5,63 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  padding: 5%;
+  background-color: #0B2434;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+
+main {
+  background-color: #F5F5F5;
+  height: 800px;
+  max-width: 1600px;
+  border-radius: 5px;
+  display: flex;
+  justify-content: space-around;
+  padding: 20px;
+  align-items: center;
+  flex-direction: column;
+}
+
+.dice--container{
+  display: grid;
+  grid-template: auto auto / repeat(5, 1fr);
+  gap: 20px;
+  margin-bottom: 50px;
+}
+
+.dice--button--roll{
+  height: 100px;
+  width: 200px;
+  border: none;
+  border-radius: 6px;
+  background-color: #5035FF;
+  color: white;
+  font-size: 48px;
+  font-family: 'Karla', sans-serif;
+}
+
+.title {
+  font-size: 70px;
+  margin: 0;
+}
+.instructions {
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  width: 800px;
+  margin-top: 0;
+  font-size: 30px;
+  text-align: center;
+}
+
+.dice--button--roll:focus {
+  outline: none;
+}
+
+.dice--button--roll:active {
+  box-shadow: inset 5px 5px 10px -3px rgba(0, 0, 0, 0.7);
 }
