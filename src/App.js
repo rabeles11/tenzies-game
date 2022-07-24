@@ -19,6 +19,10 @@ function App() {
    */
   const [dice, setDice] = useState(allNewDice);
 
+  const [numberRoll, setNumberRoll] = useState(0);
+  const [bestScore, setBestScore] = useState(
+    () => JSON.parse(localStorage.getItem("score")) || "N/A"
+  )
   const [tenzies, setTenzies] = useState(false);
 
   useEffect(() => {
@@ -28,6 +32,11 @@ function App() {
     if (allHeld && allSameValue) {
       setTenzies(true);
       console.log("You won");
+      const placeholder = bestScore === "N/A" ? 1000 : bestScore
+      if(numberRoll < placeholder){
+        localStorage.setItem("score", JSON.stringify(numberRoll))
+        setBestScore(numberRoll)
+      }
     }
   }, [dice]);
 
@@ -68,19 +77,26 @@ function App() {
     if (tenzies) {
       setDice(allNewDice());
       setTenzies(false);
+      setNumberRoll(0);
     } else {
       setDice((prev) =>
         prev.map((die) => {
           return die.isHeld ? die : generateNewDie();
         })
       );
+      setNumberRoll((roll) => roll + 1);
     }
   }
 
   return (
     <main>
       {tenzies && <Confetti />}
-      <h1 className="title">Tenzies</h1>
+      <div className="titleDiv">
+        <h1 className="title">Tenzies</h1>
+      
+      </div>
+      <span className="HighScore">Best score: {bestScore}</span>
+      <span className="score">Number of rolls: {numberRoll} </span>
       <p className="instructions">
         Roll until all dice are the same. Click each die to freeze it at its
         current value between rolls.

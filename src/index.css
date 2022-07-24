@@ -49,6 +49,18 @@ main {
   font-size: 70px;
   margin: 0;
 }
+.titleDiv{
+  flex-direction: row;
+  display: flex;
+}
+.HighScore{
+  position: absolute;
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  font-size: 30px;
+  top: 130px;
+  right: 250px
+}
 .instructions {
   font-family: 'Inter', sans-serif;
   font-weight: 400;
@@ -56,6 +68,12 @@ main {
   margin-top: 0;
   font-size: 30px;
   text-align: center;
+}
+.score{
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  font-size: 40px;
+  margin: 10px;
 }
 
 .dice--button--roll:focus {
