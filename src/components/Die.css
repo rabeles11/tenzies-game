@@ -1,23 +1,38 @@
 .Die {
   box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.15);
   border-radius: 3.81277px;
-  width: 150px;
-  height: 150px;
+  max-width: 150px;
+  width: 8rem;
+  max-height: 150px;
+  height: 8rem;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  margin-left: 50px;
-  margin-bottom: 50px;
+  flex-direction: column;
+  margin-left: 2.1rem;
+  margin-bottom: 2rem;
 }
 
 .Die--text {
   font-family: "Karla";
   font-style: normal;
   font-weight: 700;
-  font-size: 50.5889px;
-  line-height: 24px;
+  font-size: 3rem;
   text-align: center;
-
   color: #2b283a;
+
+}
+@media only screen and (max-width:700px){
+  .Die {
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.15);
+    border-radius: 3.81277px;
+    width: 4rem;
+    height: 4rem;
+    margin-left: 1rem;
+    margin-bottom: 1rem;
+  }
+  .Die--text {
+    font-size: 1.4rem;
+  }
 }
