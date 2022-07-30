@@ -60,8 +60,17 @@ main {
   font-weight: 400;
   font-size: 2rem;
   top: 9rem;
-  right: 13rem;
+  right: 15rem;
 }
+.TimerCount{
+  position: absolute;
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  font-size: 2rem;
+  top: 9rem;
+  left: 9rem;
+}
+
 .instructions {
   font-family: 'Inter', sans-serif;
   font-weight: 400;
@@ -100,6 +109,12 @@ main {
     font-size: 1rem;
     top: 2rem;
     right: 2rem;
+  }
+  .TimerCount{
+    position: absolute;
+    font-size: 1rem;
+    top: 2rem;
+    left: 2rem;
   }
   .score{
     font-size: 1.4rem;

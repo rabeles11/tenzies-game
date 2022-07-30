@@ -1,7 +1,7 @@
 import logo from "./logo.svg";
 import "./App.css";
 import Die from "./components/Die";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { nanoid } from "nanoid";
 import Confetti from "react-confetti";
 
@@ -18,27 +18,46 @@ function App() {
    * but you can do whichever way makes the most sense to you.
    */
   const [dice, setDice] = useState(allNewDice);
-
+  const [timer,setTimer] = useState(0);
+  const [isActive, setIsActive] = useState(false);
   const [numberRoll, setNumberRoll] = useState(0);
   const [bestScore, setBestScore] = useState(
     () => JSON.parse(localStorage.getItem("score")) || "N/A"
-  )
+  );
   const [tenzies, setTenzies] = useState(false);
 
   useEffect(() => {
     const allHeld = dice.every((die) => die.isHeld);
+    const nothingHeld = dice.every((die) => !die.isHeld);
     const firstValue = dice[0].value;
     const allSameValue = dice.every((die) => die.value === firstValue);
+    if(nothingHeld){
+      setNumberRoll(0);
+      setIsActive(true);
+      setTimer(0);
+    }
     if (allHeld && allSameValue) {
       setTenzies(true);
+      setIsActive(false);
       console.log("You won");
-      const placeholder = bestScore === "N/A" ? 1000 : bestScore
-      if(numberRoll < placeholder){
-        localStorage.setItem("score", JSON.stringify(numberRoll))
-        setBestScore(numberRoll)
+      let placeholder = bestScore === "N/A" ? 1000 : bestScore;
+      if ((numberRoll/timer).toFixed(2) < placeholder) {
+        localStorage.setItem("score", JSON.stringify((numberRoll/timer).toFixed(2)));
+        setBestScore((numberRoll/timer).toFixed(2));
       }
     }
   }, [dice]);
+
+  useEffect(() => {
+    console.log("test");
+    let interval = null;
+    if(isActive){
+      interval = setInterval(() => {
+        setTimer((seconds)=> seconds + 1);;
+      }, 1000);
+    }
+    return () => clearInterval(interval);
+  },[timer,isActive])
 
   const Dices = dice.map((die) => (
     <Die
@@ -88,14 +107,15 @@ function App() {
     }
   }
 
+
   return (
     <main>
       {tenzies && <Confetti />}
       <div className="titleDiv">
         <h1 className="title">Tenzies</h1>
-      
       </div>
-      <span className="HighScore">Best score: {bestScore}</span>
+      <span className="HighScore">Best score: {bestScore} points</span>
+      <span className="TimerCount">Time: {timer} s</span>
       <span className="score">Number of rolls: {numberRoll} </span>
       <p className="instructions">
         Roll until all dice are the same. Click each die to freeze it at its
