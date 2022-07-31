@@ -4,6 +4,11 @@ import Die from "./components/Die";
 import { useState, useEffect, useCallback } from "react";
 import { nanoid } from "nanoid";
 import Confetti from "react-confetti";
+import { firebase } from "./initFirebase.ts";
+import Modal from 'react-modal';
+import Form from "./components/Form";
+
+const db = firebase.database();
 
 function App() {
   /**
@@ -20,11 +25,13 @@ function App() {
   const [dice, setDice] = useState(allNewDice);
   const [timer,setTimer] = useState(0);
   const [isActive, setIsActive] = useState(false);
+  const [modalIsOpen, setIsOpen] = useState(false);
   const [numberRoll, setNumberRoll] = useState(0);
   const [bestScore, setBestScore] = useState(
     () => JSON.parse(localStorage.getItem("score")) || "N/A"
   );
   const [tenzies, setTenzies] = useState(false);
+  
 
   useEffect(() => {
     const allHeld = dice.every((die) => die.isHeld);
@@ -44,6 +51,7 @@ function App() {
       if ((numberRoll/timer).toFixed(2) < placeholder) {
         localStorage.setItem("score", JSON.stringify((numberRoll/timer).toFixed(2)));
         setBestScore((numberRoll/timer).toFixed(2));
+        openModal();
       }
     }
   }, [dice]);
@@ -74,6 +82,13 @@ function App() {
         return die.id === id ? { ...die, isHeld: !die.isHeld } : die;
       })
     );
+  }
+  function openModal() {
+    setIsOpen(true);
+  }
+
+  function closeModal() {
+    setIsOpen(false);
   }
 
   function generateNewDie() {
@@ -107,6 +122,30 @@ function App() {
     }
   }
 
+  const customStyles = {
+    content: {
+      top: '50%',
+      left: '50%',
+      right: 'auto',
+      bottom: 'auto',
+      marginRight: '-50%',
+      transform: 'translate(-50%, -50%)',
+    },
+  };
+
+  const onSubmit = (event) => {
+    event.preventDefault(event);
+    const test = db.ref("TopUsers")
+    const newrecord = test.push();
+    newrecord.set(
+      {
+        player: event.target.name.value,
+        bestScore: (numberRoll/timer).toFixed(2),
+      }
+    )
+    closeModal();
+  };
+
 
   return (
     <main>
@@ -125,6 +164,16 @@ function App() {
       <button className="dice--button--roll" onClick={rollDice}>
         {tenzies ? "Reset" : "Roll"}
       </button>
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        style={customStyles}
+        >
+          <div className="Form-Title">Congrats you reached new highscore
+          <span>{(numberRoll/timer).toFixed(2)}</span>
+          </div>
+          <Form onSubmit={onSubmit}/>
+        </Modal>
     </main>
   );
 }
