@@ -7,6 +7,7 @@ import Confetti from "react-confetti";
 import { firebase } from "./initFirebase.ts";
 import Modal from 'react-modal';
 import Form from "./components/Form";
+import { FaTrophy } from 'react-icons/fa';
 
 const db = firebase.database();
 
@@ -26,6 +27,7 @@ function App() {
   const [timer,setTimer] = useState(0);
   const [isActive, setIsActive] = useState(false);
   const [modalIsOpen, setIsOpen] = useState(false);
+  const [modalIsOpenLeaderBoard, setIsOpenLeaderBoard] = useState(false);
   const [numberRoll, setNumberRoll] = useState(0);
   const [bestScore, setBestScore] = useState(
     () => JSON.parse(localStorage.getItem("score")) || "N/A"
@@ -91,6 +93,14 @@ function App() {
     setIsOpen(false);
   }
 
+  function openModalLeaderBoard() {
+    setIsOpenLeaderBoard(true);
+  }
+
+  function closeModalLeaderBoard() {
+    setIsOpenLeaderBoard(false);
+  }
+
   function generateNewDie() {
     return {
       value: Math.floor(Math.random() * 6) + 1,
@@ -105,6 +115,10 @@ function App() {
       newArray.push(generateNewDie());
     }
     return newArray;
+  }
+
+  function ShowLeaderBoard(){
+    openModalLeaderBoard();
   }
 
   function rollDice() {
@@ -164,6 +178,11 @@ function App() {
       <button className="dice--button--roll" onClick={rollDice}>
         {tenzies ? "Reset" : "Roll"}
       </button>
+      <button className="dice--button--leaderboard" onClick={ShowLeaderBoard}>
+        <div className="leaderboard--text">
+      <FaTrophy className="Icon-Trophy"/>  Leaderboard  <FaTrophy className="Icon-Trophy"/>
+        </div>
+      </button>
       <Modal
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
@@ -173,7 +192,13 @@ function App() {
           <span>{(numberRoll/timer).toFixed(2)}</span>
           </div>
           <Form onSubmit={onSubmit}/>
-        </Modal>
+      </Modal>
+      <Modal
+        isOpen={modalIsOpenLeaderBoard}
+        onRequestClose={closeModalLeaderBoard}
+        style={customStyles}
+        >
+      </Modal>
     </main>
   );
 }

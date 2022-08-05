@@ -69,6 +69,27 @@ main {
   align-items: center;
   padding-bottom: 10px;
 }
+.dice--button--leaderboard{
+  font-size: 2rem;
+  display: flex;
+  align-items: center;
+  border-radius: 6px;
+  background-color: #5035FF;
+  border: none;
+  margin-top: 20px;
+  
+}
+.Icon-Trophy {
+  color: yellow;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+.leaderboard--text{
+  display: flex;
+  align-items: center;
+  margin: 10px;
+  color: white;
+}
 .TimerCount{
   position: absolute;
   font-family: 'Inter', sans-serif;
